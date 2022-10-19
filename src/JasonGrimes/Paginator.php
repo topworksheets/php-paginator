@@ -14,6 +14,7 @@ class Paginator
     protected $maxPagesToShow = 10;
     protected $previousText = 'Previous';
     protected $nextText = 'Next';
+    protected $showTotalPages = true;
 
     /**
      * @param int $totalItems The total number of items.
@@ -54,6 +55,22 @@ class Paginator
     public function getMaxPagesToShow()
     {
         return $this->maxPagesToShow;
+    }
+
+    /**
+     * @param bool $showTotalPages
+     */
+    public function setShowTotalPages($showTotalPages)
+    {
+        $this->showTotalPages = (bool) $showTotalPages;
+    }
+
+    /**
+     * @return bool
+     */
+    public function showTotalPages()
+    {
+        return $this->showTotalPages;
     }
 
     /**
@@ -229,10 +246,12 @@ class Paginator
             for ($i = $slidingStart; $i <= $slidingEnd; $i++) {
                 $pages[] = $this->createPage($i, $i == $this->currentPage);
             }
-            if ($slidingEnd < $this->numPages - 1) {
-                $pages[] = $this->createPageEllipsis();
+            if ($this->showTotalPages) {
+                if ($slidingEnd < $this->numPages - 1) {
+                    $pages[] = $this->createPageEllipsis();
+                }
+                $pages[] = $this->createPage($this->numPages, $this->currentPage == $this->numPages);
             }
-            $pages[] = $this->createPage($this->numPages, $this->currentPage == $this->numPages);
         }
 
 
