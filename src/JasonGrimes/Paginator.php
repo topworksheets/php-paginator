@@ -246,10 +246,10 @@ class Paginator
             for ($i = $slidingStart; $i <= $slidingEnd; $i++) {
                 $pages[] = $this->createPage($i, $i == $this->currentPage);
             }
+            if ($slidingEnd < $this->numPages - 1) {
+                $pages[] = $this->createPageEllipsis();
+            }
             if ($this->showTotalPages) {
-                if ($slidingEnd < $this->numPages - 1) {
-                    $pages[] = $this->createPageEllipsis();
-                }
                 $pages[] = $this->createPage($this->numPages, $this->currentPage == $this->numPages);
             }
         }
